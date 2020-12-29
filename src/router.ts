@@ -4,10 +4,12 @@ import { antiSpy } from 'src/Middleware/Auth';
 
 export const route = express.Router();
 
+// non auth
 route.get('/room/list');
 
-route.post('/room/join/:roomName');
-route.delete('/room/join/:roomName');
+// auth required
+route.post('/room/join/:roomName', antiSpy);
+route.delete('/room/join/:roomName', antiSpy);
 
 route.get('/room/message/:roomName', antiSpy, MessageHistories);
-route.post('/room/message/:roomName');
+route.post('/room/message/:roomName', antiSpy);

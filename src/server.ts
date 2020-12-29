@@ -1,7 +1,6 @@
 import express from 'express';
 import io, { Socket } from 'socket.io';
 import { route } from './router';
-//import { Messages, Users, Rooms } from '@prisma/client'
 const app = express();
 
 app.use(route);
@@ -15,6 +14,7 @@ const server = app.listen(9999, () => {
   console.log('Example app listening at http://localhost:9999');
 });
 
+// そのうち外出しする
 const ws = new io.Server(server, {
   cors: {
     origin: 'http://localhost:3000',
