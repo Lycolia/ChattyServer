@@ -1,8 +1,14 @@
 import express from 'express';
-import { MessageHistories } from 'src/Controller/MessageHistories';
-import { antiSpy } from 'src/Middleware/Auth';
+import { MessageHistories } from './Controller/MessageHistories';
+import { antiSpy } from './Middleware/Auth';
 
 export const route = express.Router();
+
+// for debug
+route.get('/', (req, res) => {
+  console.log(req);
+  res.send('test!');
+});
 
 // non auth
 route.get('/room/list');

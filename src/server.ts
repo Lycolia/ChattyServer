@@ -1,14 +1,11 @@
 import express from 'express';
 import io, { Socket } from 'socket.io';
+import { GeneralErrorHandler } from './Middleware/GeneralErrorHandler';
 import { route } from './router';
 const app = express();
 
-app.use(route);
-
-app.get('/', (req, res) => {
-  console.log(req);
-  res.send('test!');
-});
+app.use('/', route);
+app.use(GeneralErrorHandler);
 
 const server = app.listen(9999, () => {
   console.log('Example app listening at http://localhost:9999');
