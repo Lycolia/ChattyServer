@@ -1,4 +1,4 @@
-import { UserId } from 'src/Model/Request/UserId';
+import { UserId } from './UserId';
 
 export type SendMessage = UserId & {
   message: string;

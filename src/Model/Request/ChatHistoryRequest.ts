@@ -1,4 +1,4 @@
-import { UserId } from 'src/Model/Request/UserId';
+import { UserId } from './UserId';
 
 export type ChatHistoryRequest = UserId & {
   /** nullなら最新から取得 */
