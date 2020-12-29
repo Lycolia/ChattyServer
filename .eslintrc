@@ -1,0 +1,31 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier",
+    "prettier/@typescript-eslint"
+  ],
+  "plugins": ["@typescript-eslint"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    // Allow non-explicit return types on functions and class methods
+    "@typescript-eslint/explicit-function-return-type": "off",
+    // Allow non-explicit return types on exported functions
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    // Disallow usage of the any type
+    "@typescript-eslint/no-explicit-any": 1,
+    // Disallows explicit type declarations for variables or parameters initialized to a number, string, or boolean
+    "@typescript-eslint/no-inferrable-types": [
+      "warn",
+      {
+        "ignoreParameters": true
+      }
+    ],
+    // Warn on declared but not used variable
+    "@typescript-eslint/no-unused-vars": "warn"
+  }
+}

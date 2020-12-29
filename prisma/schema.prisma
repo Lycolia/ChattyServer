@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["nativeTypes"]
+}
+
+// メッセージ
+model Messages {
+  id        Int      @id @default(autoincrement())
+  message   String   @db.Text
+  User      Users    @relation(fields: [userId], references: [id])
+  userId    String
+  Room      Rooms    @relation(fields: [roomName], references: [name])
+  roomName  String
+  createdAt DateTime @default(now())
+}
+
+// ユーザー
+model Users {
+  id        String    @default(uuid())
+  name      String
+  active    Boolean
+  Room      Rooms     @relation(fields: [roomName], references: [name])
+  roomName  String
+  createdAt DateTime  @default(now())
+  updateAt  DateTime  @default(now())
+  @@id([id, roomName])
+}
+
+// チャットルーム
+model Rooms {
+  name      String    @id
+  createdAt DateTime  @default(now())
+}

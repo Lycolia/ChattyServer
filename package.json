@@ -1,0 +1,42 @@
+{
+  "name": "sample_sv",
+  "version": "0.0.1",
+  "description": "sample_sv",
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "main": "./dist/server.js",
+  "scripts": {
+    "dev": "npx kill-node-inspector && npm run build && npm run watch-ts",
+    "devf": "npx kill-node-inspector && npm run build && npm run watch-ts-f",
+    "build": "npm run build-ts && npm run lint",
+    "serve": "node dist/server.js",
+    "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
+    "build-ts": "tsc",
+    "watch-ts": "tsc-watch --onSuccess \"node --inspect dist/server.js\"",
+    "watch-ts-f": "tsc-watch --onSuccess \"node --inspect-brk dist/server.js\""
+  },
+  "author": "",
+  "license": "Unlicense",
+  "dependencies": {
+    "@prisma/client": "^2.13.1",
+    "express": "^4.17.1",
+    "socket.io": "^3.0.3"
+  },
+  "devDependencies": {
+    "@prisma/cli": "^2.13.1",
+    "@lycolia/kill-node-inspector": "0.0.5-2",
+    "@types/node": "^13.9.0",
+    "@types/socket.io": "^2.1.11",
+    "@typescript-eslint/eslint-plugin": "^4.2.0",
+    "@typescript-eslint/parser": "^4.2.0",
+    "concurrently": "^5.1.0",
+    "eslint": "^7.10.0",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.1.2",
+    "tsc-watch": "^4.2.9",
+    "typescript": "^4.0.3"
+  }
+}
