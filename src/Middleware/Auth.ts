@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
-import { GeneralError } from 'src/Model/Response/GeneralError';
-import { UserId } from 'src/Model/Request/UserId';
-import { getRoomProps } from 'src/Model/Room';
+import { UserId } from '../Model/Request/UserId';
+import { GeneralError } from '../Model/Response/GeneralError';
+import { getRoomProps } from '../Model/Room';
 
 /**
  * 不正レスポンス
@@ -17,7 +17,11 @@ export const responseInvalid = (res: Response) => {
 /**
  * 盗聴防止
  */
-export const antiSpy = (req: Request, res: Response, next: NextFunction) => {
+export const antiSpy = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const room = getRoomProps<UserId>(req);
   const roomName = room.name;
   const userId = room.payload.userId;
@@ -25,10 +29,15 @@ export const antiSpy = (req: Request, res: Response, next: NextFunction) => {
   if (!userId || !roomName) {
     responseInvalid(res);
   } else {
-    if (existsUser(roomName, userId)) {
-      next();
-    } else {
-      responseInvalid(res);
+    try {
+      const userExists = await existsUser(roomName, userId);
+      if (userExists) {
+        next();
+      } else {
+        responseInvalid(res);
+      }
+    } catch (error) {
+      next(error);
     }
   }
 };
