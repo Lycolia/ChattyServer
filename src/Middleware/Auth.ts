@@ -25,7 +25,7 @@ export const antiSpy = (req: Request, res: Response, next: NextFunction) => {
   if (!userId || !roomName) {
     responseInvalid(res);
   } else {
-    if (existUser(roomName, userId)) {
+    if (existsUser(roomName, userId)) {
       next();
     } else {
       responseInvalid(res);
@@ -38,7 +38,7 @@ export const antiSpy = (req: Request, res: Response, next: NextFunction) => {
  * @param roomName 部屋名
  * @param userId ユーザーID
  */
-export const existUser = async (roomName: string, userId: string) => {
+export const existsUser = async (roomName: string, userId: string) => {
   const prisma = new PrismaClient();
   // 該当IDのユーザーレコードを全取得
   const user = await prisma.users.findMany({
