@@ -29,15 +29,11 @@ export const antiSpy = async (
   if (!userId || !roomName) {
     responseInvalid(res);
   } else {
-    try {
-      const userExists = await existsUser(roomName, userId);
-      if (userExists) {
-        next();
-      } else {
-        responseInvalid(res);
-      }
-    } catch (error) {
-      next(error);
+    const userExists = await existsUser(roomName, userId);
+    if (userExists) {
+      next();
+    } else {
+      responseInvalid(res);
     }
   }
 };
