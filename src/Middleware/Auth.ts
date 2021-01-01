@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
-import { UserId } from '../Model/UserId';
+import { UserId } from '../Model/User';
 import { GeneralError } from '../Model/GeneralError';
 
 export type RequestOfRoom<Payload> = {
