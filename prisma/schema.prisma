@@ -30,7 +30,7 @@ model Users {
   Room      Rooms     @relation(fields: [roomName], references: [name])
   roomName  String
   createdAt DateTime  @default(now())
-  updateAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now())
   @@id([id, roomName])
 }
 
