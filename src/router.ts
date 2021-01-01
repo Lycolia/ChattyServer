@@ -1,5 +1,6 @@
 import express from 'express';
-import { MessageHistories } from './Controller/MessageHistories';
+import { messageHistories } from './Controller/MessageHistories';
+import { roomList } from './Controller/RoomList';
 import { antiSpy } from './Middleware/Auth';
 
 export const route = express.Router();
@@ -11,11 +12,11 @@ route.get('/', (req, res) => {
 });
 
 // non auth
-route.get('/room/list');
+route.get('/room/list', roomList);
 
 // auth required
 route.post('/room/join/:roomName', antiSpy);
 route.delete('/room/join/:roomName', antiSpy);
 
-route.get('/room/message/:roomName', antiSpy, MessageHistories);
+route.get('/room/message/:roomName', antiSpy, messageHistories);
 route.post('/room/message/:roomName', antiSpy);
