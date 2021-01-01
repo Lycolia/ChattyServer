@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { UserId } from '../Model/User';
 import { GeneralError } from '../Model/GeneralError';
 
-export type RequestOfRoom<Payload> = {
+export type PayloadWithRoom<Payload> = {
   name: string | undefined;
   payload: Payload;
 };
@@ -53,7 +53,9 @@ export const antiSpy = async (
  *
  * @returns 部屋名＋リクエストBody
  */
-export const getRoomProps = <Payload>(req: Request): RequestOfRoom<Payload> => {
+export const getRoomProps = <Payload>(
+  req: Request
+): PayloadWithRoom<Payload> => {
   return {
     name: (req.params as { roomName: string | undefined }).roomName,
     payload: req.body as Payload,
