@@ -2,11 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
 import { UserId } from '../Model/User';
 import { GeneralError } from '../Model/GeneralError';
-
-export type PayloadWithRoom<Payload> = {
-  name: string | undefined;
-  payload: Payload;
-};
+import { getRoomPayload } from '../Model/RoomPayload';
 
 /**
  * 不正レスポンス
@@ -26,7 +22,7 @@ export const antiSpy = async (
   res: Response,
   next: NextFunction
 ) => {
-  const room = getRoomProps<UserId>(req);
+  const room = getRoomPayload<UserId>(req);
   const roomName = room.name;
   const userId = room.payload.userId;
 
@@ -44,22 +40,6 @@ export const antiSpy = async (
       next(error);
     }
   }
-};
-
-/**
- * 部屋名とリクエストBodyの取得
- * @typeparam Payload リクエストBody
- * @param req Request
- *
- * @returns 部屋名＋リクエストBody
- */
-export const getRoomProps = <Payload>(
-  req: Request
-): PayloadWithRoom<Payload> => {
-  return {
-    name: (req.params as { roomName: string | undefined }).roomName,
-    payload: req.body as Payload,
-  };
 };
 
 /**
