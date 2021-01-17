@@ -15,27 +15,33 @@
     "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
     "build-ts": "tsc",
     "watch-ts": "tsc-watch --onSuccess \"node --inspect dist/server.js\"",
-    "watch-ts-f": "tsc-watch --onSuccess \"node --inspect-brk dist/server.js\""
+    "watch-ts-f": "tsc-watch --onSuccess \"node --inspect-brk dist/server.js\"",
+    "test": "npx jest"
   },
   "author": "",
-  "license": "Unlicense",
+  "license": "MIT",
   "dependencies": {
     "@prisma/client": "^2.13.1",
     "express": "^4.17.1",
     "socket.io": "^3.0.3"
   },
   "devDependencies": {
-    "@prisma/cli": "^2.13.1",
     "@lycolia/kill-node-inspector": "0.0.5-2",
+    "@prisma/cli": "^2.13.1",
+    "@types/jest": "^26.0.20",
     "@types/node": "^13.9.0",
     "@types/socket.io": "^2.1.11",
+    "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.2.0",
     "@typescript-eslint/parser": "^4.2.0",
     "concurrently": "^5.1.0",
     "eslint": "^7.10.0",
     "eslint-config-prettier": "^6.12.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.6.3",
     "prettier": "^2.1.2",
+    "supertest": "^6.1.1",
+    "ts-jest": "^26.4.4",
     "tsc-watch": "^4.2.9",
     "typescript": "^4.0.3"
   }
