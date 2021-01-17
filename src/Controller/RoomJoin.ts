@@ -3,12 +3,17 @@ import { JoinRequest } from '../Model/JoinRequest';
 import { joinRoom } from '../Model/Room';
 import { getRoomPayload } from '../Model/RoomPayload';
 
-export const roomJoin = (req: Request, res: Response) => {
+/**
+ * 入室用
+ * @param req
+ * @param res
+ */
+export const roomJoin = async (req: Request, res: Response) => {
   const rp = getRoomPayload<JoinRequest>(req);
   if (!rp) {
-    return;
+    res.status(400).send();
+  } else {
+    await joinRoom(rp.name, rp.payload.userName, rp.payload.userId);
+    res;
   }
-  joinRoom(rp.name, rp.payload.userName, rp.payload.userId);
-
-  res;
 };
