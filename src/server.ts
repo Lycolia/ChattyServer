@@ -11,6 +11,11 @@ export const server = app.listen(9999, () => {
   console.log('Example app listening at http://localhost:9999');
 });
 
+if (process.env.NODE_ENV === 'test') {
+  // テスト時はサーバーを即落とす
+  server.close();
+}
+
 // そのうち外出しする
 const ws = new io.Server(server, {
   cors: {
