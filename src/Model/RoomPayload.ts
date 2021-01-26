@@ -1,30 +1,27 @@
 import { Request } from 'express';
 
 /**
- * 部屋名とペイロード
+ * 部屋名とリクエストペイロード
  */
-export type RoomPayload<Payload> = {
+export type RoomPayload<ReqestPayload> = {
   name: string;
-  payload: Payload;
+  payload: ReqestPayload;
 };
 
 /**
  * 部屋名とリクエストBodyの取得
- * @typeparam Payload リクエストBody
+ * @typeparam Payload リクエストペイロード
  * @param req Request
  *
- * @returns 部屋名＋リクエストBody | null
+ * @returns 部屋名とリクエストペイロード
  */
-export const getRoomPayload = <Payload>(
+export const getRoomPayload = <RequestPayload>(
   req: Request
-): RoomPayload<Payload> | null => {
-  const roomName = (req.params as { roomName: string | undefined }).roomName;
-  if (roomName) {
-    return {
-      name: roomName,
-      payload: req.body as Payload,
-    };
-  } else {
-    return null;
-  }
+): RoomPayload<RequestPayload> => {
+  const roomName = (req.params as { roomName: string }).roomName;
+
+  return {
+    name: roomName,
+    payload: req.body as RequestPayload,
+  };
 };
