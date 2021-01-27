@@ -1,8 +1,11 @@
 import express from 'express';
 import { messageHistories } from './Controller/MessageHistories';
 import { roomList } from './Controller/RoomList';
-import { antiSpy } from './Middleware/Auth';
+import { auth } from './Middleware/Auth';
 
+/**
+ * Router
+ */
 export const route = express.Router();
 
 // for debug
@@ -15,8 +18,8 @@ route.get('/', (req, res) => {
 route.get('/room/list', roomList);
 
 // auth required
-route.post('/room/join/:roomName', antiSpy);
-route.delete('/room/join/:roomName', antiSpy);
+route.post('/room/join/:roomName', auth);
+route.delete('/room/join/:roomName', auth);
 
-route.get('/room/message/:roomName', antiSpy, messageHistories);
-route.post('/room/message/:roomName', antiSpy);
+route.get('/room/message/:roomName', auth, messageHistories);
+route.post('/room/message/:roomName', auth);

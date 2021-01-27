@@ -14,22 +14,30 @@ export const responseInvalid = (res: Response) => {
   res.status(403).send(err);
 };
 
+export const validRequest = (req: Request) => {
+  const roomName = (req.params as { roomName: string }).roomName;
+  const payl = req.body as UserId;
+
+  return (
+    roomName &&
+    roomName.length > 0 &&
+    payl &&
+    payl.userId &&
+    payl.userId.length > 0
+  );
+};
+
 /**
  * 盗聴防止
  */
-export const antiSpy = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const room = getRoomPayload<UserId>(req);
-  const roomName = room.name;
-  const userId = room.payload.userId;
-
-  if (!userId || !roomName) {
+export const auth = async (req: Request, res: Response, next: NextFunction) => {
+  if (!validRequest(req)) {
     responseInvalid(res);
   } else {
     try {
+      const room = getRoomPayload<UserId>(req);
+      const roomName = room.name;
+      const userId = room.payload.userId;
       const userExists = await existsUser(roomName, userId);
       if (userExists) {
         next();
