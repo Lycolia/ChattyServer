@@ -15,18 +15,3 @@ if (process.env.NODE_ENV === 'test') {
   // テスト時はサーバーを即落とす
   server.close();
 }
-
-// そのうち外出しする
-const ws = new io.Server(server, {
-  cors: {
-    origin: 'http://localhost:3000',
-  },
-});
-
-ws.on('connection', (sock: Socket) => {
-  sock.emit('hello', 'hello!');
-
-  sock.on('test', (data: unknown) => {
-    console.log(data);
-  });
-});
