@@ -14,6 +14,10 @@ export const responseInvalid = (res: Response) => {
   res.status(403).send(err);
 };
 
+/**
+ * authリクエストのバリデーター
+ * @param req
+ */
 export const validRequest = (req: Request) => {
   const roomName = (req.params as { roomName: string }).roomName;
   const payl = req.body as UserId;
@@ -57,11 +61,14 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
  */
 export const existsUser = async (roomName: string, userId: string) => {
   const prisma = new PrismaClient();
-  // 該当IDのユーザーレコードを全取得
+  // 該当IDのユーザーレコードを取得（ユーザーレコードはidと部屋名の数だけある）
   const user = await prisma.users.findMany({
     where: { id: userId },
   });
-  // 入室チェック
+  if (user.length === 0) {
+    return false;
+  }
+  // 入室チェック（該当IDのユーザーレコードの中に部屋名を持つものがあるか）
   const room = user.find((item) => item.roomName === roomName);
   return !!room;
 };
