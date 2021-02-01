@@ -1,5 +1,4 @@
 import express from 'express';
-import io, { Socket } from 'socket.io';
 import { GeneralErrorHandler } from './Middleware/GeneralErrorHandler';
 import { route } from './router';
 export const app = express();
