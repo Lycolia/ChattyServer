@@ -10,7 +10,6 @@ export const route = express.Router();
 
 // for debug
 route.get('/', (req, res) => {
-  console.log(req);
   res.send({ test: 123 });
 });
 
