@@ -1,6 +1,9 @@
+import { PrismaClient } from '@prisma/client';
 import express from 'express';
 import { GeneralErrorHandler } from './Middleware/GeneralErrorHandler';
 import { route } from './router';
+
+export const prisma = new PrismaClient();
 export const app = express();
 
 app.use('/', route);

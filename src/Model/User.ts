@@ -1,8 +1,8 @@
-import { PrismaClient, Rooms, Users } from '@prisma/client';
-import { getNowUtcIsoString } from './DateTime';
+import { Rooms, Users } from '@prisma/client';
+import { prisma } from '../server';
 
 export type UserId = {
-  userId: string | null;
+  userId: string;
 };
 /**
  * DBにユーザーがあれば取得する
@@ -10,10 +10,9 @@ export type UserId = {
  * @returns ユーザー | null
  * @throws DBエラー
  */
-export const getExistsUser = async (userId: string | null) => {
+export const getExistsUser = async (userId: string) => {
   if (userId) {
     // ユーザーIDがある場合
-    const prisma = new PrismaClient();
     const user = await prisma.users.findFirst({ where: { id: userId } });
     return user;
   } else {
@@ -27,15 +26,15 @@ export const getExistsUser = async (userId: string | null) => {
  * @param room 部屋
  */
 export const createNewUser = async (userName: string, room: Rooms) => {
-  const prisma = new PrismaClient();
   return await prisma.users.create({
     data: {
       name: userName,
       Room: {
-        connect: room,
+        connect: {
+          name: room.name,
+        },
       },
       active: true,
-      createdAt: getNowUtcIsoString(),
     },
   });
 };
@@ -50,7 +49,7 @@ export const createNewUser = async (userName: string, room: Rooms) => {
  */
 export const createUser = async (
   userName: string,
-  userId: string | null,
+  userId: string,
   room: Rooms
 ): Promise<Users> => {
   // 存在するユーザーを取得

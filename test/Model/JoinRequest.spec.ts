@@ -1,5 +1,6 @@
 import { mockReq } from 'sinon-express-mock';
 import { validJoinRequest } from '../../src/Model/JoinRequest';
+import { prisma } from '../../src/server';
 
 const validReq = mockReq({
   params: {
@@ -44,6 +45,10 @@ const invalidReqs = [
     },
   }),
 ];
+
+afterAll(async () => {
+  await prisma.$disconnect();
+});
 
 describe('validJoinRequest', () => {
   it('パラメーターNG', () => {

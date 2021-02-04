@@ -1,8 +1,8 @@
-import { PrismaClient } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
 import { UserId } from '../Model/User';
 import { GeneralError } from '../Model/GeneralError';
 import { getRoomPayload } from '../Model/RoomPayload';
+import { prisma } from '../server';
 
 /**
  * 不正レスポンス
@@ -35,10 +35,10 @@ export const validRequest = (req: Request) => {
  * 盗聴防止
  */
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
-  if (!validRequest(req)) {
-    responseInvalid(res);
-  } else {
-    try {
+  try {
+    if (!validRequest(req)) {
+      responseInvalid(res);
+    } else {
       const room = getRoomPayload<UserId>(req);
       const roomName = room.name;
       const userId = room.payload.userId;
@@ -48,9 +48,9 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
       } else {
         responseInvalid(res);
       }
-    } catch (error) {
-      next(error);
     }
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -60,7 +60,6 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
  * @param userId ユーザーID
  */
 export const existsUser = async (roomName: string, userId: string) => {
-  const prisma = new PrismaClient();
   // 該当IDのユーザーレコードを取得（ユーザーレコードはidと部屋名の数だけある）
   const user = await prisma.users.findMany({
     where: { id: userId },

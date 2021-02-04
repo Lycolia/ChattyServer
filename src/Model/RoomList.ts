@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../server';
 
 export type Room = {
   name: string;
@@ -21,7 +21,6 @@ export const createMembersCount = (members: { roomName: string }[]) => {
  * 部屋リスト
  */
 export const getRoomList = async () => {
-  const prisma = new PrismaClient();
   const members = await prisma.users.findMany({
     select: { roomName: true },
     where: { active: true },

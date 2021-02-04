@@ -1,14 +1,18 @@
-import { PrismaClient, Rooms } from '@prisma/client';
-import { getNowUtcIsoString } from './DateTime';
+import { Rooms } from '@prisma/client';
+import { prisma } from '../server';
 import { createUser } from './User';
 
 export const joinRoom = async (
   roomName: string,
   userName: string,
-  userId: string | null
+  userId: string
 ) => {
   const room = await createRoom(roomName);
   const user = await createUser(userName, userId, room);
+  return {
+    room,
+    user,
+  };
 };
 
 /**
@@ -18,7 +22,6 @@ export const joinRoom = async (
  * @throws DBエラー
  */
 export const getExistsRoom = async (roomName: string) => {
-  const prisma = new PrismaClient();
   const room = await prisma.rooms.findUnique({ where: { name: roomName } });
   return room;
 };
@@ -30,7 +33,6 @@ export const getExistsRoom = async (roomName: string) => {
  * @throws DBエラー
  */
 export const createRoom = async (roomName: string): Promise<Rooms> => {
-  const prisma = new PrismaClient();
   // 存在する部屋を取得
   const room = await getExistsRoom(roomName);
   if (!room) {
@@ -38,7 +40,6 @@ export const createRoom = async (roomName: string): Promise<Rooms> => {
     return await prisma.rooms.create({
       data: {
         name: roomName,
-        createdAt: getNowUtcIsoString(),
       },
     });
   }
