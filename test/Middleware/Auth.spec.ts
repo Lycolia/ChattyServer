@@ -90,7 +90,7 @@ describe('existsUser', () => {
   //   return Promise.all(testings);
   // });
   it('パラメーターOK', async () => {
-    const valid = await existsUser('testRoom', 'testId');
+    const valid = await existsUser(testRoom, testId);
 
     expect(valid).toBe(true);
   });
